@@ -19,7 +19,7 @@ export default function Page() {
     <div className="relative min-h-screen bg-cover bg-center flex flex-col items-center" style={{ backgroundImage: 'url(/Assets/background.jpg)' }}>
       {/* Navbar */}
       <nav className="flex justify-between items-center px-10 py-6 text-white w-full">
-        <h1 className="text-4xl font-bold">vibrant.</h1>
+        <h1 className="text-4xl font-bold">HyperSync.</h1>
     
       </nav>
 

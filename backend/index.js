@@ -25,6 +25,8 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, unique: true, required: true }, // Primary key
   walletId: String,
   walletAddress: String,
+  agentURL: { type: String, default: null }, // New field added
+
 });
 
 const OtpSchema = new mongoose.Schema({
@@ -133,6 +135,32 @@ app.all("/api/*", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+app.post("/set-agent-url", async (req, res) => {
+  const { email, agentURL } = req.body;
+  if (!email || !agentURL) return res.status(400).json({ message: "Email and Agent URL are required" });
+
+  const user = await User.findOneAndUpdate(
+    { email },
+    { agentURL },
+    { new: true }
+  );
+
+  if (!user) return res.status(404).json({ message: "User not found" });
+
+  res.json({ message: "Agent URL updated successfully", user });
+});
+
+app.get("/get-user", async (req, res) => {
+  const { email } = req.query;
+  if (!email) return res.status(400).json({ message: "Email is required" });
+
+  const user = await User.findOne({ email });
+  if (!user) return res.status(404).json({ message: "User not found" });
+
+  res.json(user);
+});
+
 
 // **7️⃣ Start Server**
 const PORT = process.env.PORT || 5000;

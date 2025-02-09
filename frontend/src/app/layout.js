@@ -12,9 +12,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Trendly",
+  title: "HyperSync",
   description:
-    "Trendly is an AI-powered agent that fully automates social media marketing for Web3 & crypto companies. From content strategy to execution, Trendly drives engagement and optimizes performance with real-time analytics.",
+    "HyperSync is an AI-powered agent that fully automates social media marketing for Web3 & crypto companies. From content strategy to execution, HyperSync drives engagement and optimizes performance with real-time analytics.",
 };
 
 export default function RootLayout({ children }) {

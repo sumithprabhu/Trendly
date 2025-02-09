@@ -6,41 +6,52 @@ import "chart.js/auto";
 const dummyData = [
   {
     id: 1,
-    tweet: "https://twitter.com/post1",
-    likes: 120,
-    impressions: 5000,
-    aiScore: 85,
+    tweet: "https://x.com/nextbrains26825/status/123456789",
+    likes: 132,
+    impressions: 3426,
+    engagement: 132, // New Metric: Engagement
   },
   {
     id: 2,
-    tweet: "https://twitter.com/post2",
-    likes: 200,
-    impressions: 7200,
-    aiScore: 76,
-  },
-  {
-    id: 3,
-    tweet: "https://twitter.com/post3",
-    likes: 340,
-    impressions: 9100,
-    aiScore: 90,
-  },
-  {
-    id: 4,
-    tweet: "https://twitter.com/post4",
-    likes: 150,
-    impressions: 6000,
-    aiScore: 82,
+    tweet: "https://x.com/nextbrains26825/status/987654321",
+    likes: 136,
+    impressions: 4577,
+    engagement: 221,
   },
 ];
 
 const Analytics = () => {
   const [data, setData] = useState(dummyData);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("https://autonome.alt.technology/marketai-sbqzos/latest-tweet-analytics");
+        const tweetStats = await response.json();
+
+        // Construct tweet link and calculate engagement
+        const newData = {
+          id: data.length + 1,
+          tweet: `https://x.com/nextbrains26825/status/${tweetStats.tweet_id}`,
+          likes: tweetStats.likes,
+          impressions: tweetStats.impressions,
+          engagement: tweetStats.likes + tweetStats.retweets + tweetStats.replies + tweetStats.quotes, // Engagement Score
+        };
+
+        setData((prevData) => [newData, ...prevData]); // Add new data on top
+      } catch (error) {
+        console.error("Error fetching tweet stats:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   // Calculating Total Stats
   const totalPosts = data.length;
   const totalLikes = data.reduce((sum, post) => sum + post.likes, 0);
   const totalImpressions = data.reduce((sum, post) => sum + post.impressions, 0);
+  const totalEngagement = data.reduce((sum, post) => sum + post.engagement, 0);
 
   // Bar Chart Data
   const impressionsChartData = {
@@ -54,12 +65,12 @@ const Analytics = () => {
     ],
   };
 
-  const aiScoreChartData = {
+  const engagementChartData = {
     labels: data.map((post) => `Post ${post.id}`),
     datasets: [
       {
-        label: "AI Score (out of 100)",
-        data: data.map((post) => post.aiScore),
+        label: "Total Engagement",
+        data: data.map((post) => post.engagement),
         backgroundColor: "rgba(16, 185, 129, 0.7)",
       },
     ],
@@ -76,11 +87,8 @@ const Analytics = () => {
     ],
   };
 
-
   return (
     <div className="p-8 text-white bg-[#141718] mt-12">
-      {/* <h1 className="text-3xl font-semibold mb-6">Analytics Overview</h1> */}
-
       {/* Top 3 Column Layout */}
       <div className="grid grid-cols-3 gap-6">
         <div className="bg-[#232627] p-6 rounded-lg border border-gray-600">
@@ -94,50 +102,49 @@ const Analytics = () => {
           <Bar data={impressionsChartData} />
         </div>
 
-        {/* Third Column - AI Scores Chart */}
+        {/* Third Column - Engagement Chart */}
         <div className="bg-[#232627] p-6 rounded-lg border border-gray-600">
-          <h2 className="text-lg font-semibold mb-4">AI Score per Post</h2>
-          <Bar data={aiScoreChartData} />
+          <h2 className="text-lg font-semibold mb-4">Engagement per Post</h2>
+          <Bar data={engagementChartData} />
         </div>
       </div>
 
       {/* Table Below */}
       <div className="mt-8 bg-[#232627] p-6 rounded-lg border border-gray-600">
-  <h2 className="text-lg font-semibold mb-4">Post Performance Table</h2>
-  <table className="w-full text-left border-collapse">
-    <thead>
-      <tr className="border-b border-gray-600">
-        <th className="py-3">Tweet Link</th>
-        <th className="py-3">Likes</th>
-        <th className="py-3">Impressions</th>
-        <th className="py-3">AI Score</th>
-      </tr>
-    </thead>
-    <tbody>
-      {data.map((post) => (
-        <tr key={post.id} className="border-b border-gray-700">
-          <td className="py-3 text-blue-400 underline">
-            <a href={post.tweet} target="_blank" rel="noopener noreferrer">
-              {post.tweet}
-            </a>
-          </td>
-          <td className="py-3">{post.likes}</td>
-          <td className="py-3">{post.impressions}</td>
-          <td className="py-3">{post.aiScore}</td>
-        </tr>
-      ))}
-    </tbody>
-    <tfoot>
-      <tr className="border-t border-gray-600 font-semibold">
-        <td className="py-3 text-right">Total:</td>
-        <td className="py-3">{data.reduce((sum, post) => sum + post.likes, 0)}</td>
-        <td className="py-3">{data.reduce((sum, post) => sum + post.impressions, 0)}</td>
-        <td className="py-3">{(data.reduce((sum, post) => sum + post.aiScore, 0) / data.length).toFixed(1)}</td>
-      </tr>
-    </tfoot>
-  </table>
-</div>
-
+        <h2 className="text-lg font-semibold mb-4">Post Performance Table</h2>
+        <table className="w-full text-left border-collapse">
+          <thead>
+            <tr className="border-b border-gray-600">
+              <th className="py-3">Tweet Link</th>
+              <th className="py-3">Likes</th>
+              <th className="py-3">Impressions</th>
+              <th className="py-3">Engagement</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((post) => (
+              <tr key={post.id} className="border-b border-gray-700">
+                <td className="py-3 text-blue-400 underline">
+                  <a href={post.tweet} target="_blank" rel="noopener noreferrer">
+                    {post.tweet}
+                  </a>
+                </td>
+                <td className="py-3">{post.likes}</td>
+                <td className="py-3">{post.impressions}</td>
+                <td className="py-3">{post.engagement}</td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot>
+            <tr className="border-t border-gray-600 font-semibold">
+              <td className="py-3 text-right">Total:</td>
+              <td className="py-3">{totalLikes}</td>
+              <td className="py-3">{totalImpressions}</td>
+              <td className="py-3">{totalEngagement}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
     </div>
   );
 };
