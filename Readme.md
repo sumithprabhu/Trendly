@@ -26,4 +26,38 @@ Simply define an end goal (e.g., "Increase Twitter engagement"), and Trendly lev
 - **Blockchain**: Ethereum Smart Contracts (Solidity)
 - **Others**: Autonome, Coinbase AgentKit, Base, Privvy, The Graph
 
+## 🚀 How to Use It
+1. Clone this repository:
+   ```sh
+   git clone https://github.com/yourusername/trendly.git
+   ```
+2. Install dependencies:
+   ```sh
+   cd trendly
+   npm install
+   ```
+3. Run the application:
+   ```sh
+   npm start
+   ```
+4. Open [localhost:3000](http://localhost:3000) in your browser.
+
+## 🎥 Demo Video
+📺 [Watch the Demo](https://your-demo-video-url.com)
+
+## 📸 Application Images
+### 🔹 Home Page
+![Home Page](https://your-image-url.com/homepage.png)
+
+### 🔹 Dashboard
+![Dashboard](https://your-image-url.com/dashboard.png)
+
+### 🔹 Trend Analytics
+![Trend Analytics](https://your-image-url.com/analytics.png)
+
+---
+### 💡 Contributors
+- [Your Name](https://github.com/yourusername)
+- [Other Contributors]
+
 🚀 **Built with love at Agentic Ethereum Hackathon!**
