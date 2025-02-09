@@ -108,7 +108,7 @@ const LoginPopup = ({ onClose, setWalletId, setWalletAddress,setEmail }) => {
         <span className="text-sm font-semibold text-gray-500">
           Log in or Sign up
         </span>
-        <span className="text-4xl font-semibold text-white mt-4">Trendly.</span>
+        <span className="text-4xl font-semibold text-white mt-4">HyperSync.</span>
         <p className="text-gray-400 text-md mt-4">
               You are just one step away from exploring the power of AI in social media.
         </p>
